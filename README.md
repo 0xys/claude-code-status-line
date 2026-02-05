@@ -10,7 +10,6 @@ Displays the following information when Claude Code starts or updates:
 - **Model info**: Active Claude model name
 - **Usage metrics**: Context window usage percentage and total cost
 - **Token counts**: Input and output tokens
-- **Context size**: Total context window size
 
 ## Installation
 
@@ -48,7 +47,7 @@ Configure Claude Code to use this command by editing `~/.claude/settings.json`:
 ## Example Output
 
 ```
-<my_username>:~/code/personal/project main* 👾 Claude Sonnet 4.5 used 45.23% $1.25 ↓15234 ↑8912
+<my_username>:~/code/personal/project main* 👾 Claude Sonnet 4.5 used 45.23% $1.25 ↑8912 ↓15234
 ```
 
 - Gray: username and directory

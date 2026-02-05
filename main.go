@@ -65,6 +65,6 @@ func main() {
 		encoder.Yellow(fmt.Sprintf("used %.2f%% $%.2f", input.ContextWindow.UsedPercentage, input.Cost.TotalCostUsd)),
 
 		// total input and output tokens
-		encoder.LightRed(fmt.Sprintf("↓%d ↑%d", input.ContextWindow.TotalInputTokens, input.ContextWindow.TotalOutputTokens)),
+		encoder.LightRed(fmt.Sprintf("%d ➜]📋[➜ %d", input.ContextWindow.TotalInputTokens, input.ContextWindow.TotalOutputTokens)),
 	))
 }
