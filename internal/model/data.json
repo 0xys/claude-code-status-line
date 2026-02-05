@@ -1,0 +1,38 @@
+{
+  "hook_event_name": "NotificationReceived",
+  "session_id": "abc123-def456-ghi789",
+  "transcript_path": "/home/user/.claude/transcripts/2026-02-05/abc123.json",
+  "cwd": "/home/user/projects/my-app",
+  "model": {
+    "id": "claude-opus-4-5-20251101",
+    "display_name": "Claude Opus 4.5"
+  },
+  "workspace": {
+    "current_dir": "/home/user/projects/my-app",
+    "project_dir": "/home/user/projects/my-app"
+  },
+  "version": "1.0.34",
+  "output_style": {
+    "name": "terminal"
+  },
+  "cost": {
+    "total_cost_usd": 0.0542,
+    "total_duration_ms": 12500,
+    "total_api_duration_ms": 8200,
+    "total_lines_added": 45,
+    "total_lines_removed": 12
+  },
+  "context_window": {
+    "total_input_tokens": 15420,
+    "total_output_tokens": 2340,
+    "context_window_size": 200000,
+    "used_percentage": 8.88,
+    "remaining_percentage": 91.12,
+    "current_usage": {
+      "input_tokens": 1250,
+      "output_tokens": 380,
+      "cache_creation_input_tokens": 5000,
+      "cache_read_input_tokens": 9170
+    }
+  }
+}

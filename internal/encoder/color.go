@@ -46,6 +46,10 @@ func Orange(text string) string {
 	return fmt.Sprintf("\033[38;2;255;165;0m%s\033[0m", text)
 }
 
+func DarkOrange(text string) string {
+	return fmt.Sprintf("\033[38;2;200;130;0m%s\033[0m", text)
+}
+
 func Blue(text string) string {
 	return fmt.Sprintf("\033[38;2;0;0;255m%s\033[0m", text)
 }

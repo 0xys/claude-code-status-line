@@ -45,10 +45,23 @@ func main() {
 	}
 	currentDir := strings.Replace(input.Workspace.CurrentDir, home, "~", 1)
 
-	gitStatus, err := encoder.GetGitStatus()
+	isGitDirty, err := encoder.IsGitDirty()
 	if err != nil {
-		fmt.Printf("Failed to get git status: %v", err)
+		fmt.Printf("Failed to get git dirty: %v", err)
 		os.Exit(1)
+	}
+
+	branchName, err := encoder.GetBranchName()
+	if err != nil {
+		fmt.Printf("Failed to get git branch: %v", err)
+		os.Exit(1)
+	}
+
+	var gitStatus string
+	if isGitDirty {
+		gitStatus = encoder.Orange(fmt.Sprintf(" %s", branchName)) + encoder.DarkOrange("*")
+	} else {
+		gitStatus = encoder.Orange(fmt.Sprintf(" %s", branchName))
 	}
 
 	fmt.Println(encoder.Encode(
@@ -56,7 +69,7 @@ func main() {
 		encoder.Gray(fmt.Sprintf("%s:%s", userName, currentDir)),
 
 		// git status
-		encoder.Orange(fmt.Sprintf(" %s", gitStatus)),
+		gitStatus,
 
 		// model display name
 		encoder.LightBlue(fmt.Sprintf("👾 %s", input.Model.DisplayName)),
@@ -65,6 +78,6 @@ func main() {
 		encoder.Yellow(fmt.Sprintf("used %.2f%% $%.2f", input.ContextWindow.UsedPercentage, input.Cost.TotalCostUsd)),
 
 		// total input and output tokens
-		encoder.LightRed(fmt.Sprintf("%d ➜]📋[➜ %d", input.ContextWindow.TotalInputTokens, input.ContextWindow.TotalOutputTokens)),
+		encoder.LightRed(fmt.Sprintf("%d ➜]..[➜ %d", input.ContextWindow.TotalInputTokens, input.ContextWindow.TotalOutputTokens)),
 	))
 }

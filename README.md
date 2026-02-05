@@ -44,25 +44,33 @@ Configure Claude Code to use this command by editing `~/.claude/settings.json`:
 
 * `<my_username>` is an optional argument. If no argument is provided, it uses your **system username**.
 
-## Example Output
 
-```
-<my_username>:~/code/personal/project main* 👾 Claude Sonnet 4.5 used 45.23% $1.25 ↑8912 ↓15234
-```
 
 - Gray: username and directory
 - Orange: git branch and status
 - Light Blue: model name
 - Yellow: usage percentage and cost
-- Light Red: token counts
+- Light Red: input/output token counts (input ➜]..[➜ output)
 
 ## Requirements
 
-- Go 1.25.6 or later
+- Go 1.24 or later
 - Git (for git status detection)
 - Claude Code CLI
 
 ## Development
+
+### Build
+```bash
+$ mise run build
+```
+
+### Display Sample Output
+
+```bash
+$ mise run sample
+<my_username>:~/code/personal/project main* 👾 Claude Sonnet 4.5 used 45.23% $1.25 8912 ➜]..[➜ 15234
+```
 
 See [CLAUDE.md](./CLAUDE.md) for architecture details and development guidance.
 

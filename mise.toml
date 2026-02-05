@@ -1,0 +1,20 @@
+[env]
+_.file = '.env'
+
+[tasks.build]
+description = "build executable artifact"
+run = """
+go build -o bin/claude-code-status-line .
+"""
+
+[tasks.sample]
+description = "view sample status line"
+run = """
+cat ./internal/model/data.json | go run . user
+"""
+
+[tasks.install]
+description = "build executable artifact"
+run = """
+go install .
+"""
