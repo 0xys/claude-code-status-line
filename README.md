@@ -48,7 +48,7 @@ Configure Claude Code to use this command by editing `~/.claude/settings.json`:
 ## Example Output
 
 ```
-<my_username>:~/code/personal/project main* 👾 Claude Sonnet 4.5 used 45.23% $1.25 ↓15234 ↑8912 ctx 200000
+<my_username>:~/code/personal/project main* 👾 Claude Sonnet 4.5 used 45.23% $1.25 ↓15234 ↑8912
 ```
 
 - Gray: username and directory
@@ -56,7 +56,6 @@ Configure Claude Code to use this command by editing `~/.claude/settings.json`:
 - Light Blue: model name
 - Yellow: usage percentage and cost
 - Light Red: token counts
-- Magenta: context window size
 
 ## Requirements
 

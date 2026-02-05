@@ -66,8 +66,5 @@ func main() {
 
 		// total input and output tokens
 		encoder.LightRed(fmt.Sprintf("↓%d ↑%d", input.ContextWindow.TotalInputTokens, input.ContextWindow.TotalOutputTokens)),
-
-		// context window size
-		encoder.Magenta(fmt.Sprintf("ctx %d", input.ContextWindow.ContextWindowSize)),
 	))
 }
