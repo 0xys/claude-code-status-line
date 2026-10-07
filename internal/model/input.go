@@ -11,6 +11,27 @@ type Input struct {
 	OutputStyle    OutputStyle   `json:"output_style,omitempty"`
 	Cost           Cost          `json:"cost,omitempty"`
 	ContextWindow  ContextWindow `json:"context_window,omitempty"`
+	RateLimits     *RateLimits   `json:"rate_limits,omitempty"`
+}
+
+// RateLimits is present only for claude.ai Pro/Max subscribers (or behind a
+// Claude apps gateway with spend limits), and only after the first API
+// response. Each window may be independently absent.
+type RateLimits struct {
+	FiveHour   *RateLimitWindow `json:"five_hour,omitempty"`
+	SevenDay   *RateLimitWindow `json:"seven_day,omitempty"`
+	SpendLimit *SpendLimit      `json:"spend_limit,omitempty"`
+}
+type RateLimitWindow struct {
+	UsedPercentage float64 `json:"used_percentage"`
+	ResetsAt       int64   `json:"resets_at"` // Unix epoch seconds
+}
+type SpendLimit struct {
+	UsedPercentage float64  `json:"used_percentage"`
+	ResetsAt       int64    `json:"resets_at"` // Unix epoch seconds
+	UsedUsd        *float64 `json:"used_usd,omitempty"`
+	LimitUsd       *float64 `json:"limit_usd,omitempty"`
+	Period         string   `json:"period,omitempty"`
 }
 type Model struct {
 	ID          string `json:"id,omitempty"`

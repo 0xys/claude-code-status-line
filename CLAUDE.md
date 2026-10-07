@@ -11,8 +11,8 @@ The output includes:
 - Git branch and dirty status (with `*` suffix)
 - Model display name
 - Context window usage percentage and total cost
-- Input/output token counts
 - Context window size
+- Plan usage (5-hour / 7-day rate limits) and time until each window resets
 
 ## Build Commands
 
@@ -39,12 +39,14 @@ Defines the JSON structure received from Claude Code hooks:
 - `Workspace`: Current and project directories
 - `Cost`: Total cost, duration, and lines changed
 - `ContextWindow`: Token usage and context window metrics
+- `RateLimits`: 5-hour / 7-day windows and the gateway spend limit (`used_percentage` 0-100, `resets_at` Unix epoch seconds). The pointer is nil when Claude Code omits the field
 
 ### Encoder Package (internal/encoder/)
 - `encoder.go`: `Encode()` function joins formatted strings with spaces
 - `color.go`: ANSI color code functions (Gray, Orange, LightBlue, Yellow, etc.) using RGB escape sequences `\033[38;2;R;G;Bm`
 - `git.go`: Git status functions that execute `git branch --show-current` and `git status --porcelain`
 - `whoami.go`: `GetUserName()` retrieves system username
+- `ratelimit.go`: `RateLimits()` formats plan usage with the time until reset, and `WriteRateLimits()` atomically writes the latest snapshot to `~/.claude/usage.json` (or `$CLAUDE_STATUS_LINE_USAGE_FILE`)
 - `hyperlink.go`: `ClickableLink()` creates terminal hyperlinks using OSC 8 sequences (currently unused in main.go)
 
 ## Key Design Patterns

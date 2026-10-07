@@ -9,7 +9,7 @@ Displays the following information when Claude Code starts or updates:
 - **Git status**: Current branch with dirty indicator (`*`)
 - **Model info**: Active Claude model name
 - **Usage metrics**: Context window usage percentage and total cost
-- **Token counts**: Input and output tokens
+- **Plan usage**: 5-hour and 7-day rate limit usage with the time until each window resets (e.g. `5h 24% ↻2h13m 7d 55% ↻3d4h`)
 
 ## Installation
 
@@ -50,7 +50,31 @@ Configure Claude Code to use this command by editing `~/.claude/settings.json`:
 - Orange: git branch and status
 - Light Blue: model name
 - Yellow: usage percentage and cost
-- Light Red: input/output token counts (input ➜]..[➜ output)
+- Cyan: plan usage and time until reset
+
+## Plan usage
+
+Claude Code passes `rate_limits` to the status line only for claude.ai Pro and Max subscribers
+(or behind a Claude apps gateway with spend limits), and only after the first API response in the
+session. When it is absent, the plan usage segment is omitted.
+
+Each time `rate_limits` is present, the latest values are also written to `~/.claude/usage.json`,
+so other tools can read your usage and reset times without an OAuth token:
+
+```json
+{
+  "updated_at": 1791338071,
+  "session_id": "abc123-def456-ghi789",
+  "rate_limits": {
+    "five_hour": { "used_percentage": 23.5, "resets_at": 1791346080 },
+    "seven_day": { "used_percentage": 55, "resets_at": 1791612270 }
+  }
+}
+```
+
+`updated_at` and `resets_at` are Unix epoch seconds. Set `CLAUDE_STATUS_LINE_USAGE_FILE` to write
+the file elsewhere. The file is not updated while `rate_limits` is absent, so it keeps the last
+known values.
 
 ## Requirements
 

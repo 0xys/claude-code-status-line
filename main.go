@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/0xys/claude-code-status-line/internal/encoder"
 	"github.com/0xys/claude-code-status-line/internal/model"
@@ -64,7 +66,13 @@ func main() {
 		gitStatus = encoder.Orange(fmt.Sprintf(" %s", branchName))
 	}
 
-	fmt.Println(encoder.Encode(
+	now := time.Now()
+
+	// Persist the latest rate limits so that other tools can read them.
+	// A failed write must not break the status line, so the error is ignored.
+	_ = encoder.WriteRateLimits(usageFilePath(home), input, now)
+
+	elements := []string{
 		// user name and current directory
 		encoder.Gray(fmt.Sprintf("%s:%s", userName, currentDir)),
 
@@ -76,8 +84,20 @@ func main() {
 
 		// used percentage and total cost
 		encoder.Yellow(fmt.Sprintf("used %.2f%% $%.2f", input.ContextWindow.UsedPercentage, input.Cost.TotalCostUsd)),
+	}
 
-		// total input and output tokens
-		encoder.LightRed(fmt.Sprintf("%d ➜]..[➜ %d", input.ContextWindow.TotalInputTokens, input.ContextWindow.TotalOutputTokens)),
-	))
+	// plan usage and time until the next reset (absent before the first API response)
+	if rateLimits := encoder.RateLimits(input.RateLimits, now); rateLimits != "" {
+		elements = append(elements, rateLimits)
+	}
+
+	fmt.Println(encoder.Encode(elements...))
+}
+
+// usageFilePath returns $CLAUDE_STATUS_LINE_USAGE_FILE, or ~/.claude/usage.json.
+func usageFilePath(home string) string {
+	if path := os.Getenv("CLAUDE_STATUS_LINE_USAGE_FILE"); path != "" {
+		return path
+	}
+	return filepath.Join(home, ".claude", "usage.json")
 }
