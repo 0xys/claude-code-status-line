@@ -12,7 +12,7 @@ The output includes:
 - Model display name
 - Context window usage percentage and total cost
 - Context window size
-- Plan usage (5-hour / 7-day rate limits) and time until each window resets
+- Plan usage (5-hour / 7-day rate limits) and the local time each window resets
 
 ## Build Commands
 
@@ -46,7 +46,7 @@ Defines the JSON structure received from Claude Code hooks:
 - `color.go`: ANSI color code functions (Gray, Orange, LightBlue, Yellow, etc.) using RGB escape sequences `\033[38;2;R;G;Bm`
 - `git.go`: Git status functions that execute `git branch --show-current` and `git status --porcelain`
 - `whoami.go`: `GetUserName()` retrieves system username
-- `ratelimit.go`: `RateLimits()` formats plan usage with the time until reset, and `WriteRateLimits()` atomically writes the latest snapshot to `~/.claude/usage.json` (or `$CLAUDE_STATUS_LINE_USAGE_FILE`)
+- `ratelimit.go`: `RateLimits()` formats plan usage with the local reset time, and `WriteRateLimits()` atomically writes the latest snapshot to `~/.claude/usage.json` (or `$CLAUDE_STATUS_LINE_USAGE_FILE`)
 - `hyperlink.go`: `ClickableLink()` creates terminal hyperlinks using OSC 8 sequences (currently unused in main.go)
 
 ## Key Design Patterns

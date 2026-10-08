@@ -86,7 +86,7 @@ func main() {
 		encoder.Yellow(fmt.Sprintf("used %.2f%% $%.2f", input.ContextWindow.UsedPercentage, input.Cost.TotalCostUsd)),
 	}
 
-	// plan usage and time until the next reset (absent before the first API response)
+	// plan usage and the next reset time (absent before the first API response)
 	if rateLimits := encoder.RateLimits(input.RateLimits, now); rateLimits != "" {
 		elements = append(elements, rateLimits)
 	}

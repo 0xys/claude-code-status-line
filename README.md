@@ -9,7 +9,7 @@ Displays the following information when Claude Code starts or updates:
 - **Git status**: Current branch with dirty indicator (`*`)
 - **Model info**: Active Claude model name
 - **Usage metrics**: Context window usage percentage and total cost
-- **Plan usage**: 5-hour and 7-day rate limit usage with the time until each window resets (e.g. `5h 24% ↻2h13m 7d 55% ↻3d4h`)
+- **Plan usage**: 5-hour and 7-day rate limit usage with the local time each window resets (e.g. `5h 24% until 12:50 7d 55% until 10/09 12:50`)
 
 ## Installation
 
@@ -50,7 +50,7 @@ Configure Claude Code to use this command by editing `~/.claude/settings.json`:
 - Orange: git branch and status
 - Light Blue: model name
 - Yellow: usage percentage and cost
-- Cyan: plan usage and time until reset
+- Cyan: plan usage and reset time
 
 ## Plan usage
 

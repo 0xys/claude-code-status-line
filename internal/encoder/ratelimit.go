@@ -12,7 +12,7 @@ import (
 )
 
 // RateLimits formats the 5-hour and 7-day windows (and the spend limit, if any)
-// as "5h 23% ↻2h13m 7d 41% ↻3d4h". It returns "" when no window is present.
+// as "5h 23% until 12:50 7d 41% until 10/09 12:50". It returns "" when no window is present.
 func RateLimits(r *model.RateLimits, now time.Time) string {
 	if r == nil {
 		return ""
@@ -35,26 +35,17 @@ func RateLimits(r *model.RateLimits, now time.Time) string {
 }
 
 func window(name string, pct float64, resetsAt int64, now time.Time) string {
-	return Cyan(fmt.Sprintf("%s %.0f%% ↻%s", name, pct, untilReset(resetsAt, now)))
+	return Cyan(fmt.Sprintf("%s %.0f%% until %s", name, pct, resetTime(resetsAt, now)))
 }
 
-// untilReset renders the time left until resetsAt as "3d4h", "2h13m" or "45m".
-func untilReset(resetsAt int64, now time.Time) string {
-	d := time.Unix(resetsAt, 0).Sub(now)
-	if d <= 0 {
-		return "now"
+// resetTime renders resetsAt in local time as "12:50" when it is today,
+// or "10/09 12:50" when it is on another day.
+func resetTime(resetsAt int64, now time.Time) string {
+	t := time.Unix(resetsAt, 0).In(now.Location())
+	if t.Year() == now.Year() && t.YearDay() == now.YearDay() {
+		return t.Format("15:04")
 	}
-	days := int(d.Hours()) / 24
-	hours := int(d.Hours()) % 24
-	minutes := int(d.Minutes()) % 60
-	switch {
-	case days > 0:
-		return fmt.Sprintf("%dd%dh", days, hours)
-	case hours > 0:
-		return fmt.Sprintf("%dh%dm", hours, minutes)
-	default:
-		return fmt.Sprintf("%dm", minutes)
-	}
+	return t.Format("01/02 15:04")
 }
 
 // usageSnapshot is what WriteRateLimits stores, so that other tools can read the
